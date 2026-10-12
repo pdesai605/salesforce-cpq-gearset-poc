@@ -118,10 +118,16 @@ private class DealDeskIntegrationTest {
     @IsTest
     static void controllerReturnsSummaryAndApproves() {
         SBQQ__Quote__c quote = getQuote();
+        // Permission sets assigned in @TestSetup only take effect inside runAs,
+        // which the controller needs because it queries in user mode.
+        User approver = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
+        DealDeskController.DealDeskSummary summary;
 
         Test.startTest();
-        DealDeskController.DealDeskSummary summary = DealDeskController.getSummary(quote.Id);
-        DealDeskController.updateApprovalStatus(quote.Id, 'Approved', 'Approved for strategic logo.');
+        System.runAs(approver) {
+            summary = DealDeskController.getSummary(quote.Id);
+            DealDeskController.updateApprovalStatus(quote.Id, 'Approved', 'Approved for strategic logo.');
+        }
         Test.stopTest();
 
         Assert.areEqual(1, summary.lines.size(), 'One line returned');
