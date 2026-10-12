@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Block_Presenting_Unapproved_Quotes</fullName>
+    <active>true</active>
+    <description>A quote that needs Deal Desk approval cannot be Presented or Accepted until it is approved.</description>
+    <errorConditionFormula>AND(
+    Requires_Deal_Desk_Approval__c,
+    NOT(ISPICKVAL(Approval_Status__c, &quot;Approved&quot;)),
+    OR(
+        ISPICKVAL(SBQQ__Status__c, &quot;Presented&quot;),
+        ISPICKVAL(SBQQ__Status__c, &quot;Accepted&quot;)
+    )
+)</errorConditionFormula>
+    <errorMessage>This quote needs Deal Desk approval before it can be presented or accepted.</errorMessage>
+</ValidationRule>
