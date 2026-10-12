@@ -1,0 +1,26 @@
+{
+  "name": "salesforce-cpq-gearset-poc",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Salesforce CPQ Deal Desk app delivered through a Gearset release pipeline",
+  "scripts": {
+    "lint": "eslint \"force-app/**/lwc/**/*.js\"",
+    "test:unit": "sfdx-lwc-jest --passWithNoTests",
+    "test:unit:coverage": "sfdx-lwc-jest --coverage --passWithNoTests",
+    "prettier": "prettier --write \"force-app/**/*.{cls,trigger,js,html,css,xml}\"",
+    "prettier:verify": "prettier --check \"force-app/**/*.{cls,trigger,js,html,css}\""
+  },
+  "devDependencies": {
+    "@lwc/eslint-plugin-lwc": "^2.0.0",
+    "@prettier/plugin-xml": "^3.4.1",
+    "@salesforce/eslint-config-lwc": "^3.7.2",
+    "@salesforce/eslint-plugin-aura": "^2.1.0",
+    "@salesforce/eslint-plugin-lightning": "^1.0.0",
+    "@salesforce/sfdx-lwc-jest": "^7.9.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jest": "^28.6.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-apex": "^2.1.4"
+  }
+}

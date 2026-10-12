@@ -1,0 +1,68 @@
+# Runs on every pull request into an environment branch.
+# Gearset Pipelines validates the deployment against the target org;
+# this workflow adds a fast code-quality gate before reviewers even look.
+name: PR Quality Gate
+
+on:
+  pull_request:
+    branches: [dev, qa, uat, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+  checks: write
+
+concurrency:
+  group: quality-gate-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apex-static-analysis:
+    name: Apex static analysis (PMD)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Run PMD
+        id: pmd
+        uses: pmd/pmd-github-action@v2
+        with:
+          version: '7.7.0'
+          sourcePath: force-app
+          rulesets: config/pmd/apex-ruleset.xml
+          analyzeModifiedFilesOnly: false
+
+      - name: Fail on violations
+        if: steps.pmd.outputs.violations != 0
+        run: |
+          echo "::error::PMD found ${{ steps.pmd.outputs.violations }} violation(s). See the annotations on this PR."
+          exit 1
+
+  lwc-quality:
+    name: LWC lint, format and unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Prettier format check
+        run: npm run prettier:verify
+
+      - name: Jest unit tests with coverage
+        run: npm run test:unit:coverage

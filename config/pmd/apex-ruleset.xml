@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Deal Desk Apex Quality Gate"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+
+    <description>
+        Static analysis rules enforced on every pull request.
+        Security and error-prone rules block the merge; the rest keep the codebase consistent.
+    </description>
+
+    <rule ref="category/apex/security.xml">
+        <exclude name="ApexSuggestUsingNamedCred"/>
+    </rule>
+
+    <rule ref="category/apex/errorprone.xml"/>
+
+    <rule ref="category/apex/performance.xml"/>
+
+    <rule ref="category/apex/bestpractices.xml">
+        <!-- Not every unit test needs a dedicated running user -->
+        <exclude name="ApexUnitTestClassShouldHaveRunAs"/>
+    </rule>
+
+    <rule ref="category/apex/design.xml/CognitiveComplexity"/>
+    <rule ref="category/apex/design.xml/CyclomaticComplexity"/>
+    <rule ref="category/apex/design.xml/AvoidDeeplyNestedIfStmts"/>
+    <rule ref="category/apex/design.xml/NcssMethodCount"/>
+
+    <rule ref="category/apex/codestyle.xml/ClassNamingConventions"/>
+    <rule ref="category/apex/codestyle.xml/MethodNamingConventions"/>
+    <rule ref="category/apex/codestyle.xml/IfStmtsMustUseBraces"/>
+    <rule ref="category/apex/codestyle.xml/IfElseStmtsMustUseBraces"/>
+    <rule ref="category/apex/codestyle.xml/ForLoopsMustUseBraces"/>
+    <rule ref="category/apex/codestyle.xml/WhileLoopsMustUseBraces"/>
+    <rule ref="category/apex/codestyle.xml/OneDeclarationPerLine"/>
+</ruleset>

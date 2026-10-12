@@ -1,0 +1,7 @@
+# Every change needs a review from the release owner before it can merge.
+# Replace with your GitHub username (and later the client's release team).
+* @pdesai605
+
+# Approval rules and pricing logic need an extra pair of eyes.
+/force-app/main/default/customMetadata/ @pdesai605
+/force-app/main/default/classes/DealDeskService.cls @pdesai605

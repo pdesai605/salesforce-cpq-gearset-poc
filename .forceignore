@@ -1,0 +1,10 @@
+# Files the Salesforce CLI should never deploy or track
+package.xml
+**/jsconfig.json
+**/.eslintrc.json
+**/__tests__/**
+**/*.dup
+.sfdx
+.sf
+.localdevserver
+**/.gitkeep
