@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Below_Floor__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>True when Net Unit Price is below the floor price. Set by QuoteLineTriggerHandler.</description>
+    <externalId>false</externalId>
+    <label>Below Floor</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>
