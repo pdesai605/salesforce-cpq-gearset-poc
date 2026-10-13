@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requires_Deal_Desk_Approval__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>True when the discount tier requires approval or any line is priced below floor.</description>
+    <externalId>false</externalId>
+    <label>Requires Deal Desk Approval</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>
