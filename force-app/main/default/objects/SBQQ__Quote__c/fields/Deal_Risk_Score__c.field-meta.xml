@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deal_Risk_Score__c</fullName>
+    <description>0-100 score calculated by DealDeskService from discount depth, below-floor lines and deal size.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Calculated automatically. 0-29 low, 30-59 medium, 60+ high risk.</inlineHelpText>
+    <label>Deal Risk Score</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

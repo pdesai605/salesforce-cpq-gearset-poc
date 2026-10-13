@@ -1,0 +1,112 @@
+<template>
+    <lightning-card title="Deal Desk" icon-name="standard:approval">
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={isLoading}>
+                <lightning-spinner alternative-text="Loading Deal Desk summary" size="small"></lightning-spinner>
+            </template>
+
+            <template lwc:if={error}>
+                <div class="slds-text-color_error error-message" role="alert">{error}</div>
+            </template>
+
+            <template lwc:if={summary}>
+                <!-- Risk gauge -->
+                <div class="risk">
+                    <div class="risk__header">
+                        <span class="risk__label">Deal risk score</span>
+                        <span class={band.css} data-id="risk-band">{band.label}</span>
+                    </div>
+                    <div class="risk__score" data-id="risk-score">{riskScore}<span class="risk__max">/100</span></div>
+                    <div class="gauge" aria-hidden="true">
+                        <div class={gaugeClass} style={gaugeStyle} data-id="gauge"></div>
+                    </div>
+                </div>
+
+                <!-- Key facts -->
+                <div class="slds-grid slds-wrap slds-gutters_x-small facts">
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4 fact">
+                        <span class="fact__label">Discount</span>
+                        <span class="fact__value">
+                            <lightning-formatted-number
+                                value={discountRatio}
+                                format-style="percent"
+                                maximum-fraction-digits="1"
+                            ></lightning-formatted-number>
+                        </span>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4 fact">
+                        <span class="fact__label">Tier</span>
+                        <span class="fact__value" data-id="tier">{tierLabel}</span>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4 fact">
+                        <span class="fact__label">Below floor</span>
+                        <span class="fact__value" data-id="below-floor">{belowFloorLines} lines</span>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4 fact">
+                        <span class="fact__label">Approval</span>
+                        <span class={statusClass} data-id="status">{statusLabel}</span>
+                    </div>
+                </div>
+
+                <template lwc:if={hasBelowFloorLines}>
+                    <div class="slds-notify slds-notify_alert slds-alert_warning callout" role="alert">
+                        <lightning-icon
+                            icon-name="utility:warning"
+                            size="x-small"
+                            class="slds-m-right_x-small"
+                        ></lightning-icon>
+                        Some lines are priced below the product floor. Deal Desk approval is required.
+                    </div>
+                </template>
+
+                <!-- Lines -->
+                <template lwc:if={hasLines}>
+                    <div class="lines">
+                        <lightning-datatable
+                            key-field="id"
+                            data={rows}
+                            columns={columns}
+                            hide-checkbox-column
+                            column-widths-mode="auto"
+                        ></lightning-datatable>
+                    </div>
+                </template>
+
+                <!-- Approver actions -->
+                <template lwc:if={showApprovalActions}>
+                    <div class="actions">
+                        <lightning-textarea
+                            label="Deal Desk notes"
+                            value={notes}
+                            onchange={handleNotesChange}
+                            max-length="5000"
+                        ></lightning-textarea>
+                        <div class="slds-m-top_small slds-text-align_right">
+                            <lightning-button
+                                label="Reject"
+                                variant="destructive-text"
+                                onclick={handleReject}
+                                disabled={isSaving}
+                                class="slds-m-right_x-small"
+                                data-id="reject"
+                            ></lightning-button>
+                            <lightning-button
+                                label="Approve"
+                                variant="brand"
+                                onclick={handleApprove}
+                                disabled={isSaving}
+                                data-id="approve"
+                            ></lightning-button>
+                        </div>
+                    </div>
+                </template>
+
+                <template lwc:if={showAwaitingMessage}>
+                    <p class="slds-text-color_weak slds-m-top_small" data-id="awaiting">
+                        Waiting for a Deal Desk approver. A review task has been created.
+                    </p>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>
